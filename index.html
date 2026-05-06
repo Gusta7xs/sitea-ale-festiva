@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Festiva Papelaria - Painel e Loja</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Festiva Papelaria Personalizada</h1>
+    <div id="sessionInfo"></div>
+  </header>
+
+  <main>
+    <section id="authSection" class="card-grid">
+      <article class="card">
+        <h2>Registrar</h2>
+        <form id="registerForm">
+          <label>Nome da loja
+            <input required name="storeName" placeholder="Ex: Encanto da Festa" />
+          </label>
+          <label>Usuário
+            <input required name="username" placeholder="usuario123" />
+          </label>
+          <label>Senha
+            <input required name="password" type="password" minlength="4" />
+          </label>
+          <label>Telefone do vendedor
+            <input required name="phone" placeholder="(11) 99999-0000" />
+          </label>
+          <label>Chave PIX
+            <input required name="pixKey" placeholder="email, CPF ou chave aleatória" />
+          </label>
+          <button type="submit">Criar conta</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>Login</h2>
+        <form id="loginForm">
+          <label>Usuário
+            <input required name="username" />
+          </label>
+          <label>Senha
+            <input required name="password" type="password" />
+          </label>
+          <button type="submit">Entrar</button>
+        </form>
+      </article>
+    </section>
+
+    <section id="dashboardSection" class="hidden">
+      <div class="tabs">
+        <button class="tab active" data-tab="geral">Geral</button>
+        <button class="tab" data-tab="produtos">Produtos</button>
+        <button class="tab" data-tab="pedidos">Pedidos</button>
+        <button class="tab" data-tab="vendas">Vendas</button>
+      </div>
+
+      <article class="panel" id="geralPanel">
+        <h2>Visão Geral</h2>
+        <div id="overview"></div>
+        <div class="public-link">
+          <p>Sua página pública:</p>
+          <code id="publicStoreUrl"></code>
+        </div>
+      </article>
+
+      <article class="panel hidden" id="produtosPanel">
+        <h2>Produtos</h2>
+        <form id="productForm" class="inline-form">
+          <input required name="name" placeholder="Nome do produto" />
+          <input required name="category" placeholder="Categoria" />
+          <input required name="subCategory" placeholder="Subcategoria" />
+          <input required name="price" type="number" min="1" step="0.01" placeholder="Preço" />
+          <input required name="image" placeholder="URL da imagem" />
+          <textarea required name="description" placeholder="Descrição"></textarea>
+          <button type="submit">Criar produto</button>
+        </form>
+        <ul id="productList" class="list"></ul>
+      </article>
+
+      <article class="panel hidden" id="pedidosPanel">
+        <h2>Pedidos</h2>
+        <div class="search-row">
+          <input id="orderSearch" placeholder="Buscar por número do pedido" />
+        </div>
+        <ul id="orderList" class="list"></ul>
+      </article>
+
+      <article class="panel hidden" id="vendasPanel">
+        <h2>Vendas</h2>
+        <div id="salesSummary"></div>
+        <canvas id="salesChart" width="400" height="220"></canvas>
+      </article>
+
+      <button id="logoutBtn" class="logout">Sair</button>
+    </section>
+
+    <section id="storeSection" class="hidden">
+      <h2 id="storeTitle"></h2>
+      <p id="storeContact"></p>
+      <div id="storeProducts" class="product-grid"></div>
+    </section>
+  </main>
+
+  <dialog id="orderDialog">
+    <form method="dialog" id="orderForm">
+      <h3>Finalizar pedido</h3>
+      <input type="hidden" name="productId" />
+      <label>Seu e-mail<input type="email" name="email" required /></label>
+      <label>Contato (WhatsApp)<input name="contact" required /></label>
+      <label>Tema da festa<input name="theme" required /></label>
+      <label>Menina ou Menino
+        <select name="gender" required>
+          <option value="">Selecione</option>
+          <option>Menina</option>
+          <option>Menino</option>
+        </select>
+      </label>
+      <label>Idade da criança<input type="number" name="age" min="1" required /></label>
+      <label>Algo para acrescentar<textarea name="notes"></textarea></label>
+      <menu>
+        <button value="cancel">Cancelar</button>
+        <button id="sendOrderBtn" value="default">Enviar pedido</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <dialog id="paymentDialog">
+    <div class="payment-box">
+      <h3>Pagamento PIX</h3>
+      <p>Pedido <strong id="paymentOrderId"></strong></p>
+      <img id="pixQr" alt="QR Code PIX" />
+      <label>Código PIX
+        <textarea id="pixCopy" readonly></textarea>
+      </label>
+      <button id="copyPixBtn">Copiar PIX</button>
+      <label>Enviar comprovante (imagem)
+        <input id="receiptInput" type="file" accept="image/*" />
+      </label>
+      <button id="validateReceiptBtn">Validar comprovante</button>
+      <p id="receiptStatus"></p>
+      <button id="closePaymentBtn">Fechar</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
